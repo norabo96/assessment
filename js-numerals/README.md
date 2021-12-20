@@ -37,7 +37,12 @@ flutter run -d chrome --web-renderer html
 
 The implementation:
 
-I made the converter functionality followed the English grammar rules which I know, so I changed the forth example correct solution accordingly.
+I made the converter functionality followed the English grammar rules which I know, so I changed the forth example correct solution accordingly. After a further negotiation of the expectation I can easily change this accordingly to any slang rules.
 
 On the website the user can add a number and only a number value at the field and then clicking on the button labeled "convert" can make the conversion. The result will show up above the input field.
+
 ![Screenshot](assets/solution/screenshot.png)
+
+The converter functionality was tested by unit test with the given examples successfully.
+
+Thank you for the task, it was really fun to solve.
