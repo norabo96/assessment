@@ -24,3 +24,13 @@ Treat this task like a project to create a real-life application, focus on other
 - Don't forget to write tests.
 
 Thank you for your time and happy coding! 🧑‍💻
+
+# My solution
+
+As a web-based solution I choose the web application of the Flutter framework to perform this task.
+
+To build the project:
+<pre>
+flutter build web --web-renderer html --release
+flutter run -d chrome --web-renderer html
+</pre>
