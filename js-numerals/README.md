@@ -34,3 +34,10 @@ To build the project:
 flutter build web --web-renderer html --release
 flutter run -d chrome --web-renderer html
 </pre>
+
+The implementation:
+
+I made the converter functionality followed the English grammar rules which I know, so I changed the forth example correct solution accordingly.
+
+On the website the user can add a number and only a number value at the field and then clicking on the button labeled "convert" can make the conversion. The result will show up above the input field.
+![Screenshot](assets/solution/screenshot.png)
