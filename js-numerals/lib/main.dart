@@ -301,46 +301,5 @@ class _ConverterPageState extends State<ConverterPage> {
     });
   }
 
-  void popError(Object e){
-    showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-          content: Container(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(
-              e.toString(),
-              style: GoogleFonts.poppins(
-                letterSpacing: 1,
-                fontSize: 18,
-                color: Colors.grey[850],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Row(
-                children: <Widget>[
-                  TextButton(
-                    child: Text(
-                      'OK',
-                      style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                    onPressed: () async {
-                      Navigator.of(context).pop(context);
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
-        );
-      },
-    );
-  }
+
 }
