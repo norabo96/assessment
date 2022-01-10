@@ -55,3 +55,25 @@ Create an iOS app that lists the issues of a GitHub repository using the officia
 - Code organization
 - Architecture
 - UX
+
+# My solution
+
+I made this task in Flutter and test it only on Android.
+
+The implementation:
+
+![Screenshot](assets/solution/first_screen.png)
+
+On the first screen the user can add a GitHub username. If the username is incorrect, a pop up window will appear.
+
+![Screenshot](assets/solution/repo_list.png)
+
+According to the username there is a list of the user's public repositories. A check mark or an x marks whether or not there are issues.
+
+![Screenshot](assets/solution/repo_issues.png)
+
+By clicking to the repository card will appear a list of the current repository's issues appear with some information. By clicking to the lock on the top right corner the user can see only the open issues or the closed issues.
+
+![Screenshot](assets/solution/single_issue.png)
+
+By clicking to the issue card will appear some further information from the issue.
