@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:github_issues/models/repo_issue.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'constants.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:html/dom.dart' as dom;
 
 class RepoIssuePage extends StatefulWidget {
   final RepoIssue repoIssue;
@@ -18,6 +20,7 @@ class _RepoIssuePageState extends State<RepoIssuePage> {
   void initState(){
     super.initState();
     repoIssue = widget.repoIssue;
+    htmlFormat();
   }
 
   @override
@@ -195,6 +198,13 @@ class _RepoIssuePageState extends State<RepoIssuePage> {
                   child: SingleChildScrollView(
                     child: Html(
                       data: repoIssue.body,
+                      onLinkTap: (String? url, RenderContext context, Map<String, String> attributes, dom.Element? element) async {
+                        if (await canLaunch(url!)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      }
                     ),
                   ),
                 ),
@@ -202,6 +212,39 @@ class _RepoIssuePageState extends State<RepoIssuePage> {
           ),
         ),
       ],
+    );
+  }
+
+  void htmlFormat(){
+    setState(() {
+      repoIssue.body = repoIssue.body!.replaceAll('<details>', '');
+      repoIssue.body = repoIssue.body!.replaceAll('</details>', '');
+
+      repoIssue.body = repoIssue.body!.replaceAll('<h1>', '<h3>');
+      repoIssue.body = repoIssue.body!.replaceAll('</h1>', '</h3>');
+
+      repoIssue.body = repoIssue.body!.replaceAll('<summary>', '');
+      repoIssue.body = repoIssue.body!.replaceAll('</summary>', '');
+
+      repoIssue.body = repoIssue.body!.replaceAll('<blockquote>', '');
+      repoIssue.body = repoIssue.body!.replaceAll('</blockquote>', '');
+
+      repoIssue.body = repoIssue.body!.replaceAll('\n', '<br>');
+
+      repoIssue.body = repoIssue.body!.replaceAll(RegExp(r"(<br>){2,}"), '<br>');
+
+      var markdown = RegExp(r"\[[\w\s]*\]\((http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])\)");
+
+      repoIssue.body = repoIssue.body!.replaceAllMapped(markdown, (m) {
+        var text = '';
+        var url = '';
+        text = m[0].toString().split('[')[1].split(']')[0];
+        url = m[0].toString().split('(')[1].split(')')[0];
+
+        return '<a href="' + url + '">' + text + '</a>';
+      });
+
+    }
     );
   }
 }
