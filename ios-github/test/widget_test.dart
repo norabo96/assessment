@@ -5,26 +5,51 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:github_issues/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  setUpAll(() {
+    HttpOverrides.global = null;
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Get repositories with valid user', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      final HttpClient client = HttpClient();
+      final HttpClientRequest request = await client.getUrl(Uri.parse('https://api.github.com/users/' + 'jshier' + '/repos'));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      final HttpClientResponse response = await request.close();
+      expect(response.statusCode.toInt(), 200);
+    });
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Get repositories with invalid user', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      final HttpClient client = HttpClient();
+      final HttpClientRequest request = await client.getUrl(Uri.parse('https://api.github.com/users/' + 'dsgagrdv' + '/repos'));
+
+      final HttpClientResponse response = await request.close();
+      expect(response.statusCode.toInt(), 404);
+    });
+  });
+
+  testWidgets('Get issues with valid repository', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      final HttpClient client = HttpClient();
+      final HttpClientRequest request = await client.getUrl(Uri.parse('https://api.github.com/repos/'+ 'jshier' + '/' + 'HazeLight' + '/issues'));
+
+      final HttpClientResponse response = await request.close();
+      expect(response.statusCode.toInt(), 200);
+    });
+  });
+
+  testWidgets('Get issues with invalid repository', (WidgetTester tester) async {
+    await tester.runAsync(() async {
+      final HttpClient client = HttpClient();
+      final HttpClientRequest request = await client.getUrl(Uri.parse('https://api.github.com/repos/'+ 'jshier' + '/' + 'sasdgsdg' + '/issues'));
+
+      final HttpClientResponse response = await request.close();
+      expect(response.statusCode.toInt(), 404);
+    });
   });
 }
